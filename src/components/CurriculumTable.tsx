@@ -29,8 +29,8 @@ const CurriculumTable = () => {
               <label
                 className={`mr-3 rounded-full size-10 text-center flex items-center justify-center   ${
                   selectedColumn === index + 1
-                    ? "bg-gray text-white"
-                    : " bg-gray/10"
+                    ? "bg-primary text-white"
+                    : " bg-primary/10"
                 } rounded-full cursor-pointer`}
               >
                 {index + 1}
@@ -44,7 +44,7 @@ const CurriculumTable = () => {
         <div className="overflow-x-auto">
           <table className="min-w-full">
             <thead>
-              <tr className="bg-gray border-r border-2 border-gray text-white">
+              <tr className="bg-primary border-r border-2 border-primary text-white">
                 {convertToArray(
                   data[0],
                   [],
@@ -80,7 +80,7 @@ const CurriculumTable = () => {
                         <td
                           key={colIndex}
                           rowSpan={rowSpans[rowIndex][colIndex]}
-                          className="border-2 text-sm capitalize relative   border-gray/25 px-4 py-2 text-center"
+                          className="border-2 text-sm capitalize relative   border-primary/25 px-4 py-2 text-center"
                         >
                           level {cell}
                           {cell.length === 1 && data.length === index + 1 && (
@@ -88,7 +88,7 @@ const CurriculumTable = () => {
                               onClick={() =>
                                 addRow((Number(cell) + 1).toString())
                               }
-                              className="absolute border z-30 right-1.5 bottom-1.5 cursor-pointer size-7 flex items-center text-blue-500 justify-center border-blue-500 rounded-sm"
+                              className="absolute border z-30 right-1 bottom-1 cursor-pointer size-7 flex items-center text-blue-500 justify-center border-blue-500 rounded-sm"
                             >
                               <IoAdd className=" text-sm" />
                             </div>
@@ -104,7 +104,7 @@ const CurriculumTable = () => {
                                   .join(".");
                                 addRow(parentNum + "." + newNum);
                               }}
-                              className="absolute border z-30 right-1.5 bottom-1.5 flex items-center text-blue-500 justify-center cursor-pointer size-7 border-blue-500 rounded-sm"
+                              className="absolute border z-30 right-1 bottom-1 flex items-center text-blue-500 justify-center cursor-pointer size-7 border-blue-500 rounded-sm"
                             >
                               <IoAdd className=" text-sm" />
                             </div>
@@ -120,7 +120,7 @@ const CurriculumTable = () => {
         </div>
       </div>
       <div className=" w-full flex justify-end">
-        <button className=" rounded-md bg-gray/30 px-5 py-2 text-white">
+        <button className=" rounded-md bg-primary/30 px-5 py-2 text-white">
           Same Framework
         </button>
       </div>
