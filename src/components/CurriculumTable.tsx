@@ -62,33 +62,36 @@ const CurriculumTable = () => {
                         className="border-[1px] text-sm capitalize relative group  border-clr-border/50 px-4 py-2 text-center"
                       >
                         level {cell}
-                        {cell.length === 1 && data.length === index + 1 && (
-                          <div
-                            onClick={() => {
-                              console.log(Number(cell) + 1);
+                        {cell.split(".").length === 1 &&
+                          data.length === index + 1 && (
+                            <div
+                              onClick={() => {
+                                console.log(Number(cell) + 1);
 
-                              addRow((Number(cell) + 1).toString());
-                            }}
-                            className="absolute   invisible group-hover:visible transition-all border z-30 right-1 bottom-1 cursor-pointer size-7 flex items-center text-blue-500 justify-center border-blue-500 rounded-md"
-                          >
-                            <IoAdd className=" text-lg" />
-                          </div>
-                        )}
-                        {cell.length > 1 && lastMap.includes(cell) && (
-                          <div
-                            onClick={() => {
-                              const newNum = Number(cell.split(".").pop()) + 1;
-                              const parentNum = cell
-                                .split(".")
-                                .slice(0, -1)
-                                .join(".");
-                              addRow(parentNum + "." + newNum);
-                            }}
-                            className="absolute border z-30 right-1 invisible group-hover:visible bottom-1 flex items-center text-blue-500 justify-center cursor-pointer size-7 border-blue-500 rounded-md"
-                          >
-                            <IoAdd className=" text-lg" />
-                          </div>
-                        )}
+                                addRow((Number(cell) + 1).toString());
+                              }}
+                              className="absolute   invisible group-hover:visible transition-all border z-30 right-1 bottom-1 cursor-pointer size-7 flex items-center text-blue-500 justify-center border-blue-500 rounded-md"
+                            >
+                              <IoAdd className=" text-lg" />
+                            </div>
+                          )}
+                        {cell.split(".").length > 1 &&
+                          lastMap.includes(cell) && (
+                            <div
+                              onClick={() => {
+                                const newNum =
+                                  Number(cell.split(".").pop()) + 1;
+                                const parentNum = cell
+                                  .split(".")
+                                  .slice(0, -1)
+                                  .join(".");
+                                addRow(parentNum + "." + newNum);
+                              }}
+                              className="absolute border z-30 right-1 invisible group-hover:visible bottom-1 flex items-center text-blue-500 justify-center cursor-pointer size-7 border-blue-500 rounded-md"
+                            >
+                              <IoAdd className=" text-lg" />
+                            </div>
+                          )}
                       </td>
                     ) : null
                   )}
