@@ -3,7 +3,7 @@ import "./globals.css";
 import localFont from "next/font/local";
 
 const myFont = localFont({
-  src: "../../public/font/AvenirNextLTPro-Regular.otf",
+  src: "../../public/fonts/Avenir Next LT W02 Regular.woff",
 });
 
 export const metadata: Metadata = {
@@ -19,7 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${myFont.className}   antialiased`}>{children}</body>
+      <body className={myFont.className}>{children}</body>
     </html>
   );
 }
