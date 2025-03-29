@@ -15,31 +15,11 @@ const CurriculumTable = () => {
   } = useTableState();
   return (
     <>
-      <div className="flex  flex-col gap-y-2 justify-center">
-        <label className=" font-semibold">Number of levels</label>
-        <div className=" flex ">
-          {Array.from({ length: columnCount }, (_, index) => (
-            <div
-              onClick={() => {
-                addColumn(index + 1);
-              }}
-              key={index}
-              className={`flex items-center mb-2 `}
-            >
-              <label
-                className={`mr-3 rounded-full size-10 text-center flex items-center justify-center   ${
-                  selectedColumn === index + 1
-                    ? "bg-primary text-white"
-                    : " bg-primary/10"
-                } rounded-full cursor-pointer`}
-              >
-                {index + 1}
-              </label>
-            </div>
-          ))}
-        </div>
-      </div>
-
+      <CustomizeColumn
+        columnCount={columnCount}
+        selectedColumn={selectedColumn}
+        addColumn={addColumn}
+      />
       <div className="bg-background mb-6 overflow-hidden">
         <div className="overflow-x-auto">
           <table className="min-w-full">
@@ -126,3 +106,40 @@ const CurriculumTable = () => {
 };
 
 export default CurriculumTable;
+
+const CustomizeColumn = ({
+  columnCount,
+  addColumn,
+  selectedColumn,
+}: {
+  columnCount: number;
+  addColumn: (num: number) => void;
+  selectedColumn: number;
+}) => {
+  return (
+    <div className="flex  flex-col gap-y-2 justify-center">
+      <label className=" font-semibold">Number of levels</label>
+      <div className=" flex ">
+        {Array.from({ length: columnCount }, (_, index) => (
+          <div
+            onClick={() => {
+              addColumn(index + 1);
+            }}
+            key={index}
+            className={`flex items-center mb-2 `}
+          >
+            <label
+              className={`mr-3 rounded-full size-10 text-center flex items-center justify-center   ${
+                selectedColumn === index + 1
+                  ? "bg-primary text-white"
+                  : " bg-primary/10"
+              } rounded-full cursor-pointer`}
+            >
+              {index + 1}
+            </label>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
