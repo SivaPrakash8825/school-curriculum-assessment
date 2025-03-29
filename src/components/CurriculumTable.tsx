@@ -45,13 +45,10 @@ const CurriculumTable = () => {
           <table className="min-w-full">
             <thead>
               <tr className="bg-primary border-r border-2 border-primary text-white">
-                {convertToArray(
-                  data[0],
-                  [],
-                  [],
-                  [],
-                  selectedColumn
-                ).allPaths[0].map((column, index) => (
+                {(
+                  convertToArray(data[0], [], [], [], selectedColumn)
+                    .allPaths[0] as string[]
+                )?.map((column: string, index: number) => (
                   <th
                     key={index}
                     className="px-4 py-1 text-[12px] border-white text-white uppercase font-light text-center border "
@@ -67,13 +64,13 @@ const CurriculumTable = () => {
                 const { allPaths: val, lastItems: lastMap } = convertToArray(
                   column,
                   [],
-                  [],
+                  [] as string[][],
                   [],
                   selectedColumn
                 );
                 const rowSpans = calculateRowSpans(val);
 
-                return val.map((row, rowIndex) => (
+                return val.map((row: string[], rowIndex) => (
                   <tr key={rowIndex}>
                     {row.slice(0, selectedColumn).map((cell, colIndex) =>
                       rowSpans[rowIndex][colIndex] > 0 ? (

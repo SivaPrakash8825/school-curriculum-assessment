@@ -1,23 +1,33 @@
-export const findMaxDepth = (obj, depth = 0) => {
-  if (typeof obj !== "object" || Object.keys(obj).length === 0) return depth;
+export interface NestedObject {
+  [key: string]: NestedObject | unknown;
+}
+
+export const findMaxDepth = (obj: NestedObject, depth: number = 0): number => {
+  if (typeof obj !== "object" || obj === null || Object.keys(obj).length === 0)
+    return depth;
   return Math.max(
-    ...Object.values(obj).map((child) => findMaxDepth(child, depth + 1))
+    ...Object.values(obj).map((child) =>
+      findMaxDepth(child as NestedObject, depth + 1)
+    )
   );
 };
 
 export function convertToArray(
-  obj,
-  path = [],
-  result = [],
-  lastItems = [],
-  maxDepth = Infinity
+  obj: Record<string, unknown>,
+  path: string[] = [],
+  result: string[][] = [],
+  lastItems: string[] = [],
+  maxDepth: number = Infinity
 ) {
   const keys = Object.keys(obj);
 
   keys.forEach((key, index) => {
     const newPath = [...path, key];
     const isLastAtThisLevel = index === keys.length - 1;
-    const children = Object.keys(obj[key]);
+    const children =
+      typeof obj[key] === "object" && obj[key] !== null
+        ? Object.keys(obj[key] as object)
+        : [];
 
     if (children.length === 0 || newPath.length >= maxDepth) {
       // Stop adding further if maxDepth is reached
@@ -27,7 +37,15 @@ export function convertToArray(
         lastItems.push(key);
       }
     } else {
-      convertToArray(obj[key], newPath, result, lastItems, maxDepth);
+      if (typeof obj[key] === "object" && obj[key] !== null) {
+        convertToArray(
+          obj[key] as Record<string, unknown>,
+          newPath,
+          result,
+          lastItems,
+          maxDepth
+        );
+      }
       if (isLastAtThisLevel) {
         lastItems.push(key);
       }
@@ -41,8 +59,8 @@ export function convertToArray(
 }
 
 export const createNestedStructure = (
-  baseNum,
-  maxDepth,
+  baseNum: number | string,
+  maxDepth: number,
   currentDepth = 1,
   currentPath = baseNum.toString()
 ) => {
@@ -50,7 +68,7 @@ export const createNestedStructure = (
     return {};
   }
 
-  const result = {};
+  const result: Record<string, unknown> = {};
   const newKey = currentDepth === 1 ? baseNum.toString() : `${currentPath}.1`;
 
   result[newKey] = createNestedStructure(
