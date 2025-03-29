@@ -56,7 +56,7 @@ const CurriculumTable = () => {
                       <td
                         key={colIndex}
                         rowSpan={rowSpans[rowIndex][colIndex]}
-                        className="border-2 text-sm capitalize relative group   border-clr-border px-4 py-2 text-center"
+                        className="border-[1px] text-sm capitalize relative group  border-clr-border/50 px-4 py-2 text-center"
                       >
                         level {cell}
                         {cell.length === 1 && data.length === index + 1 && (
@@ -115,7 +115,7 @@ const CustomizeColumn = ({
 }) => {
   return (
     <div className="flex  flex-col gap-y-2 justify-center">
-      <label className=" font-semibold">Number of levels</label>
+      <label className=" font-normal">Number of levels</label>
       <div className=" flex ">
         {Array.from({ length: columnCount }, (_, index) => (
           <div

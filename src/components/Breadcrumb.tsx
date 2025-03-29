@@ -2,12 +2,12 @@ import React from "react";
 import { GoChevronRight } from "react-icons/go";
 const Breadcrumb = () => {
   return (
-    <div className="  rounded-sm flex items-center  p-4  gap-x-2 border border-clr-border">
-      <p className=" font-semibold">NCF</p>
+    <div className="  rounded-md flex items-center  p-4  gap-x-2 border border-clr-border/50">
+      <p className=" font-normal">NCF</p>
       <GoChevronRight className="  text-lg " />
-      <p className=" font-semibold">Grade 9</p>
+      <p className=" font-medium">Grade 9</p>
       <GoChevronRight className="  text-lg " />
-      <p className=" font-semibold">Science</p>
+      <p className=" font-medium">Science</p>
     </div>
   );
 };

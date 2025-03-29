@@ -3,7 +3,24 @@ import "./globals.css";
 import localFont from "next/font/local";
 
 const myFont = localFont({
-  src: "../../public/fonts/Avenir Next LT W02 Regular.woff",
+  src: [
+    {
+      path: "../../public/fonts/Avenir Next LT W02 Regular.woff",
+      weight: "400",
+    },
+    {
+      path: "../../public/fonts/Avenir Next W10 Medium.woff",
+      weight: "400",
+    },
+    {
+      path: "../../public/fonts/Avenir Next W10 Demi.woff",
+      weight: "500",
+    },
+    {
+      path: "../../public/fonts/Avenir Next W10 Bold.woff",
+      weight: "600",
+    },
+  ],
 });
 
 export const metadata: Metadata = {
