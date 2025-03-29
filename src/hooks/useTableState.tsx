@@ -35,7 +35,7 @@ export function useTableState() {
       const maxDepth = Math.max(...prevData.map((item) => findMaxDepth(item)));
       const newData: TableData[] = JSON.parse(JSON.stringify(prevData));
 
-      if (num.length === 1) {
+      if (num.split(".").length === 1) {
         // Handle root-level additions (e.g., "3")
         newData.push(createNestedStructure(num, maxDepth) as TableData);
       } else {

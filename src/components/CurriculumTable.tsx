@@ -64,12 +64,14 @@ const CurriculumTable = () => {
                         level {cell}
                         {cell.length === 1 && data.length === index + 1 && (
                           <div
-                            onClick={() =>
-                              addRow((Number(cell) + 1).toString())
-                            }
+                            onClick={() => {
+                              console.log(Number(cell) + 1);
+
+                              addRow((Number(cell) + 1).toString());
+                            }}
                             className="absolute   invisible group-hover:visible transition-all border z-30 right-1 bottom-1 cursor-pointer size-7 flex items-center text-blue-500 justify-center border-blue-500 rounded-md"
                           >
-                            <IoAdd className=" text-" />
+                            <IoAdd className=" text-lg" />
                           </div>
                         )}
                         {cell.length > 1 && lastMap.includes(cell) && (
