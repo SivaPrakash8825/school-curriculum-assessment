@@ -4,7 +4,7 @@ import { useState } from "react";
 
 export function useTableState() {
   const [columnCount] = useState(5);
-  const [selectedColumn, setSelectedColumn] = useState(5);
+  const [selectedColumn, setSelectedColumn] = useState(3);
   interface DataNode {
     [key: string]: DataNode | object;
   }
