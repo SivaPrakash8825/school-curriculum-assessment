@@ -5,7 +5,7 @@ import { IoAdd } from "react-icons/io5";
 // Convert nested object into an array format & identify last items
 
 const calculateRowSpans = (data) => {
-  let spanMatrix = data.map(() => Array(data[0].length).fill(1));
+  const spanMatrix = data.map(() => Array(data[0].length).fill(1));
 
   for (let j = 0; j < data[0].length; j++) {
     for (let i = data.length - 1; i > 0; i--) {
@@ -107,7 +107,6 @@ const CurriculumTable = () => {
         // Handle nested path additions (e.g., "1.3")
         const pathParts = num.split(".");
         const rootKey = pathParts[0];
-        const parentPath = pathParts.slice(0, -1).join(".");
         const newKey = pathParts.join(".");
 
         const rootObj = newData.find((item) => item[rootKey] !== undefined);
