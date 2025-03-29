@@ -29,6 +29,7 @@ export function useTableState() {
 
   type AddRowFunction = (num: string) => void;
 
+  // Function to add a row
   const addRow: AddRowFunction = (num) => {
     setData((prevData) => {
       const maxDepth = Math.max(...prevData.map((item) => findMaxDepth(item)));
@@ -67,6 +68,7 @@ export function useTableState() {
     });
   };
 
+  // Function to add a column
   const addColumn = (count: number) => {
     setSelectedColumn(count);
     setData((prevData) => {
@@ -108,6 +110,8 @@ export function useTableState() {
     (data: string[][]): RowSpanMatrix;
   }
 
+  // Function to calculate row spans for the table
+  // This function calculates the row spans for each cell in the table based on the data provided.
   const calculateRowSpans: CalculateRowSpansFunction = (data) => {
     const spanMatrix: RowSpanMatrix = data.map(() =>
       Array(data[0].length).fill(1)

@@ -15,6 +15,7 @@ const CurriculumTable = () => {
   } = useTableState();
   return (
     <>
+      {/* Select Column */}
       <CustomizeColumn
         columnCount={columnCount}
         selectedColumn={selectedColumn}
@@ -22,6 +23,7 @@ const CurriculumTable = () => {
       />
       <div className=" overflow-y-auto">
         <table className="min-w-full">
+          {/* table header */}
           <thead>
             <tr className="bg-primary  text-white">
               {(
@@ -38,6 +40,7 @@ const CurriculumTable = () => {
             </tr>
           </thead>
 
+          {/*   table body */}
           <tbody>
             {data.map((column, index) => {
               const { allPaths: val, lastItems: lastMap } = convertToArray(
