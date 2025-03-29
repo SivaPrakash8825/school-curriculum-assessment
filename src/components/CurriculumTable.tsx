@@ -20,7 +20,7 @@ const CurriculumTable = () => {
         selectedColumn={selectedColumn}
         addColumn={addColumn}
       />
-      <div className=" overflow-y-scroll">
+      <div className=" overflow-y-auto">
         <table className="min-w-full">
           <thead>
             <tr className="bg-primary  text-white">
