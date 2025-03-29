@@ -1,92 +1,105 @@
 "use client";
+import { createNestedStructure, findMaxDepth } from "@/utils/tableUtils";
 import { useState } from "react";
 
-// Define the types
-interface CellValue {
-  value: string;
-}
-
-interface Cell {
-  values: CellValue[];
-}
-
-interface Row {
-  cells: Cell[];
-}
-
 export function useTableState() {
-  const [columns, setColumns] = useState<string[]>(["Column 1"]);
-  const [rows, setRows] = useState<Row[]>([
-    { cells: [{ values: [{ value: "Cell Data" }] }] },
+  const [columnCount, setColumnCount] = useState(5);
+  const [selectedColumn, setSelectedColumn] = useState(3);
+  const [data, setData] = useState([
+    {
+      1: {
+        1.1: {
+          "1.1.1": {},
+        },
+      },
+    },
   ]);
 
-  const addColumn = (columnName: string) => {
-    setColumns([...columns, columnName]);
-    setRows(
-      rows.map((row) => ({
-        ...row,
-        cells: [...row.cells, { values: [{ value: "" }] }],
-      }))
-    );
+  const addRow = (num) => {
+    setData((prevData) => {
+      const maxDepth = Math.max(...prevData.map((item) => findMaxDepth(item)));
+      const newData = JSON.parse(JSON.stringify(prevData));
+
+      if (num.length === 1) {
+        // Handle root-level additions (e.g., "3")
+        newData.push(createNestedStructure(num, maxDepth));
+      } else {
+        // Handle nested path additions (e.g., "1.3")
+        const pathParts = num.split(".");
+        const rootKey = pathParts[0];
+        const newKey = pathParts.join(".");
+
+        const rootObj = newData.find((item) => item[rootKey] !== undefined);
+
+        if (rootObj) {
+          const levelsToAdd = maxDepth - pathParts.length;
+          const newStructure = createNestedStructure(newKey, levelsToAdd + 1);
+
+          let current = rootObj[rootKey];
+          let currentPath = rootKey;
+
+          for (let i = 1; i < pathParts.length - 1; i++) {
+            currentPath += `.${pathParts[i]}`;
+            current = current[currentPath];
+          }
+
+          current[newKey] = newStructure[newKey];
+        }
+      }
+
+      return newData;
+    });
   };
 
-  const addRow = () => {
-    const newRow: Row = {
-      cells: columns.map(() => ({ values: [{ value: "" }] })),
-    };
-    setRows([...rows, newRow]);
-  };
+  const addColumn = (count: number) => {
+    setSelectedColumn(count);
+    setData((prevData) => {
+      // Create a deep copy of the data
+      const newData = JSON.parse(JSON.stringify(prevData));
 
-  const addCellValue = (rowIndex: number, cellIndex: number) => {
-    const updatedRows = [...rows];
-    if (updatedRows[rowIndex] && updatedRows[rowIndex].cells[cellIndex]) {
-      updatedRows[rowIndex].cells[cellIndex].values.push({ value: "" });
-      setRows(updatedRows);
+      // Function to recursively add children to leaf nodes
+      const addChildrenToLeaves = (obj) => {
+        Object.keys(obj).forEach((key) => {
+          if (Object.keys(obj[key]).length === 0) {
+            // If it's a leaf node, add a child
+            const childKey = `${key}.1`;
+            obj[key][childKey] = {};
+          } else {
+            // Otherwise, continue recursion
+            addChildrenToLeaves(obj[key]);
+          }
+        });
+      };
+
+      // Process each root object in the data array
+      newData.forEach((rootObj) => {
+        const rootKey = Object.keys(rootObj)[0];
+        addChildrenToLeaves(rootObj[rootKey]);
+      });
+
+      return newData;
+    });
+  };
+  const calculateRowSpans = (data) => {
+    const spanMatrix = data.map(() => Array(data[0].length).fill(1));
+
+    for (let j = 0; j < data[0].length; j++) {
+      for (let i = data.length - 1; i > 0; i--) {
+        if (data[i][j] === data[i - 1][j]) {
+          spanMatrix[i - 1][j] += spanMatrix[i][j];
+          spanMatrix[i][j] = 0; // Hide the duplicate cell
+        }
+      }
     }
-  };
-
-  const deleteRow = (rowIndex: number) => {
-    setRows(rows.filter((_, index) => index !== rowIndex));
-  };
-
-  const updateCellValue = (
-    rowIndex: number,
-    cellIndex: number,
-    valueIndex: number,
-    value: string
-  ) => {
-    const updatedRows = [...rows];
-    if (updatedRows[rowIndex]?.cells[cellIndex]?.values[valueIndex]) {
-      updatedRows[rowIndex].cells[cellIndex].values[valueIndex].value = value;
-      setRows(updatedRows);
-    }
-  };
-
-  const deleteCellValue = (
-    rowIndex: number,
-    cellIndex: number,
-    valueIndex: number
-  ) => {
-    const updatedRows = [...rows];
-    if (updatedRows[rowIndex]?.cells[cellIndex]?.values.length > 1) {
-      updatedRows[rowIndex].cells[cellIndex].values.splice(valueIndex, 1);
-      setRows(updatedRows);
-    }
-  };
-
-  const getMaxCellCount = () => {
-    return Math.max(...rows.map((row) => row.cells.length), 0);
+    return spanMatrix;
   };
 
   return {
-    columns,
-    rows,
-    addColumn,
+    data,
+    columnCount,
+    selectedColumn,
     addRow,
-    addCellValue,
-    deleteRow,
-    updateCellValue,
-    deleteCellValue,
-    getMaxCellCount,
+    addColumn,
+    calculateRowSpans,
   };
 }
