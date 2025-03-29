@@ -3,7 +3,7 @@ import { createNestedStructure, findMaxDepth } from "@/utils/tableUtils";
 import { useState } from "react";
 
 export function useTableState() {
-  const [columnCount, setColumnCount] = useState(5);
+  const [columnCount] = useState(5);
   const [selectedColumn, setSelectedColumn] = useState(3);
   const [data, setData] = useState([
     {
